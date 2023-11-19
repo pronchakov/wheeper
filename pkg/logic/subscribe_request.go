@@ -1,4 +1,4 @@
-package moonraker
+package logic
 
 import "github.com/google/uuid"
 

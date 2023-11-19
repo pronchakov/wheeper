@@ -2,7 +2,9 @@ package moonraker
 
 import (
 	"context"
-	"github.com/google/uuid"
+	"dario.cat/mergo"
+	"encoding/json"
+	"github.com/pronchakov/wheeper/pkg/logic"
 	"log"
 	"nhooyr.io/websocket"
 	"nhooyr.io/websocket/wsjson"
@@ -26,42 +28,36 @@ func ConnectToMoonraker() {
 	if err != nil {
 		log.Fatal("Error:", err) // todo:
 	}
-
-	go handleMessages()
-
 }
 
-func handleMessages() {
+func HandleMessages(data *logic.Data) {
 	for needToHandleMessages == true {
-		v := map[string]any{}
-		err := wsjson.Read(ctx, conn, &v)
-		if err != nil {
-			log.Println("Error processing message:", err, v)
+		_, readBytes, readError := conn.Read(ctx)
+		if readError != nil {
+			log.Fatal("Error processing message:", readError)
 		}
-		method := v["method"]
-		if method == "notify_proc_stat_update" {
-			log.Println("Message:", method)
-		}
+
+		m := map[string]any{}
+		json.Unmarshal(readBytes, &m)
+
+		method := m["method"]
 		if method == "notify_status_update" {
-			log.Println("Message:", method, v["params"])
+			statusUpdate := logic.StatusUpdate{}
+			json.Unmarshal(readBytes, &statusUpdate)
+			for _, p := range statusUpdate.Params {
+				if p.Extruder != nil {
+					mergo.Merge(data.Objects.Extruder, p.Extruder, mergo.WithOverride)
+				}
+			}
 		}
 	}
 }
 
-func Subscribe(object string) {
-	request := SubscribeRequest{
-		Jsonrpc: "2.0",
-		Method:  "printer.objects.subscribe",
-		Params: Params{
-			Objects: Objects{
-				Extruder: nil,
-			},
-		},
-		Id: uuid.New().String(),
-	}
-	err2 := wsjson.Write(ctx, conn, &request)
+func Subscribe() {
+	request := logic.NewSubscribeRequest()
+	err2 := wsjson.Write(ctx, conn, request)
 	if err2 != nil {
-		log.Println("Error subscribing:", err2)
+		log.Fatal("Error subscribing:", err2)
 	}
 }
 
