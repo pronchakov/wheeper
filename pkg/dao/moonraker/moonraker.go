@@ -45,8 +45,29 @@ func HandleMessages(data *logic.Data) {
 			statusUpdate := logic.StatusUpdate{}
 			json.Unmarshal(readBytes, &statusUpdate)
 			for _, p := range statusUpdate.Params {
+				if p.Webhooks != nil {
+					mergo.Merge(data.Objects.Webhooks, p.Webhooks, mergo.WithOverride)
+				}
+				if p.GcodeMove != nil {
+					mergo.Merge(data.Objects.GcodeMove, p.GcodeMove, mergo.WithOverride)
+				}
+				if p.Toolhead != nil {
+					mergo.Merge(data.Objects.Toolhead, p.Toolhead, mergo.WithOverride)
+				}
 				if p.Extruder != nil {
 					mergo.Merge(data.Objects.Extruder, p.Extruder, mergo.WithOverride)
+				}
+				if p.HeaterBed != nil {
+					mergo.Merge(data.Objects.HeaterBed, p.HeaterBed, mergo.WithOverride)
+				}
+				if p.Fan != nil {
+					mergo.Merge(data.Objects.Fan, p.Fan, mergo.WithOverride)
+				}
+				if p.IdleTimeout != nil {
+					mergo.Merge(data.Objects.IdleTimeout, p.IdleTimeout, mergo.WithOverride)
+				}
+				if p.PrintStats != nil {
+					mergo.Merge(data.Objects.PrintStats, p.PrintStats, mergo.WithOverride)
 				}
 			}
 		}
