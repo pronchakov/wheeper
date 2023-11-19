@@ -1,0 +1,12 @@
+{
+  "jsonrpc": "2.0",
+  "method": "notify_status_update",
+  "params": [
+    {
+      "extruder": {
+        "temperature": 22.34
+      }
+    },
+    21818.231383694
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "jsonrpc": "2.0",
+  "method": "notify_proc_stat_update",
+  "params": [
+    {
+      "moonraker_stats": {
+        "time": 1699966552.3152912,
+        "cpu_usage": 3.22,
+        "memory": 43560,
+        "mem_units": "kB"
+      },
+      "cpu_temp": 65.519,
+      "network": {
+        "lo": {
+          "rx_bytes": 48542855,
+          "tx_bytes": 48542855,
+          "rx_packets": 192714,
+          "tx_packets": 192714,
+          "rx_errs": 0,
+          "tx_errs": 0,
+          "rx_drop": 0,
+          "tx_drop": 0,
+          "bandwidth": 5203.04
+        },
+        "eth0": {
+          "rx_bytes": 0,
+          "tx_bytes": 0,
+          "rx_packets": 0,
+          "tx_packets": 0,
+          "rx_errs": 0,
+          "tx_errs": 0,
+          "rx_drop": 0,
+          "tx_drop": 0,
+          "bandwidth": 0.0
+        },
+        "wlan0": {
+          "rx_bytes": 5327368,
+          "tx_bytes": 46784293,
+          "rx_packets": 100082,
+          "tx_packets": 98017,
+          "rx_errs": 0,
+          "tx_errs": 0,
+          "rx_drop": 0,
+          "tx_drop": 0,
+          "bandwidth": 3771.96
+        }
+      },
+      "system_cpu_usage": {
+        "cpu": 1.25,
+        "cpu0": 2.0,
+        "cpu1": 1.01,
+        "cpu2": 0.0,
+        "cpu3": 0.0
+      },
+      "system_memory": {
+        "total": 2032516,
+        "available": 1742728,
+        "used": 289788
+      },
+      "websocket_connections": 2
+    }
+  ]
+}

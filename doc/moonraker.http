@@ -1,0 +1,53 @@
+###
+GET http://{{host}}:7125/server/info
+
+###
+GET http://{{host}}:7125/server/config
+
+###
+GET http://{{host}}:7125/printer/info
+
+###
+GET http://{{host}}:7125/printer/objects/list
+
+###
+GET http://{{host}}:7125/printer/objects/query?fan&extruder
+
+###
+GET http://{{host}}:7125/printer/objects/query?fan&extruder=target,temperature
+
+###
+WEBSOCKET ws://{{host}}:7125/websocket
+Content-Type: application/json
+
+//{
+//  "jsonrpc": "2.0",
+//  "method": "server.websocket.id",
+//  "id": "48ad62b5-7424-4898-b738-0cc7ab3f0ca8"
+//}
+
+#=== wait-for-server
+
+{
+  "jsonrpc": "2.0",
+  "method": "printer.objects.subscribe",
+  "params": {
+    "objects": {
+      "extruder": ["temperature", "target", "power", "pressure_advance", "smooth_time"]
+    }
+  },
+  "id": "124"
+}
+
+=== wait-for-server
+=== wait-for-server
+=== wait-for-server
+=== wait-for-server
+=== wait-for-server
+=== wait-for-server
+=== wait-for-server
+=== wait-for-server
+=== wait-for-server
+
+###
+
