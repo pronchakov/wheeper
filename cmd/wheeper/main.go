@@ -9,18 +9,19 @@ import (
 
 func main() {
 
-	data := logic.NewData()
+	masterData := logic.NewData()
 
-	moonraker.ConnectToMoonraker()
+	moonraker.SetUrl("ws://ray.local:7125/websocket")
+	moonraker.Connect()
 	moonraker.Subscribe()
-	go moonraker.HandleMessages(data)
+	go moonraker.HandleMessages(masterData)
 
 	for i := 0; i < 60; i++ {
-		if data.Objects.Extruder != nil && data.Objects.Extruder.Temperature != nil {
-			log.Println("Data:", *data.Objects.Extruder.Temperature)
+		if masterData.Objects.Extruder != nil && masterData.Objects.Extruder.Temperature != nil {
+			log.Println("Data:", *masterData.Objects.Extruder.Temperature)
 		}
 		time.Sleep(time.Second)
 	}
 
-	time.Sleep(time.Hour)
+	moonraker.Disconnect()
 }

@@ -22,9 +22,21 @@ var err error
 
 var needToHandleMessages bool = true
 
-func ConnectToMoonraker() {
+func SetUrl(u string) {
+	url = u
+}
+
+func SetUsername(u string) {
+	username = u
+}
+
+func SetPassword(p string) {
+	password = p
+}
+
+func Connect() {
 	ctx, cancel = context.WithTimeout(context.Background(), time.Minute)
-	conn, _, err = websocket.Dial(ctx, "ws://ray.local:7125/websocket", nil)
+	conn, _, err = websocket.Dial(ctx, url, nil)
 	if err != nil {
 		log.Fatal("Error:", err) // todo:
 	}
@@ -37,7 +49,7 @@ func HandleMessages(data *logic.Data) {
 			log.Fatal("Error processing message:", readError)
 		}
 
-		m := map[string]any{}
+		m := map[string]string{}
 		json.Unmarshal(readBytes, &m)
 
 		method := m["method"]
@@ -82,7 +94,7 @@ func Subscribe() {
 	}
 }
 
-func Close() {
+func Disconnect() {
 	needToHandleMessages = false
 	time.Sleep(time.Second)
 	conn.Close(websocket.StatusNormalClosure, "end")
